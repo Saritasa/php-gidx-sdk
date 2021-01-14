@@ -23,8 +23,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property Carbon $created_at
  *
 // * @property User $user
- * @property GidxSessionResponse $gidx_session_response
- * @property PaymentRequest $payment_request
+ * @property GidxSessionResponse $gidxSessionResponse
+ * @property PaymentRequest $paymentRequest
  */
 class PaymentStatusTracking extends Model
 {
