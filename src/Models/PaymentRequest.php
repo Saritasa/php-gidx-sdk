@@ -77,16 +77,6 @@ class PaymentRequest extends Model
         return $this->belongsTo(GidxSession::class);
     }
 
-//  public function transaction()
-//  {
-//      return $this->belongsTo(Transaction::class);
-//  }
-
-//  public function user()
-//  {
-//      return $this->belongsTo(User::class);
-//  }
-
     public function statusTracking(): HasMany
     {
         return $this->hasMany(PaymentStatusTracking::class);

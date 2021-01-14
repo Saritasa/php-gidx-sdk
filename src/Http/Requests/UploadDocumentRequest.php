@@ -6,6 +6,8 @@ use GidxSDK\Enums\GidxCategoryTypes;
 
 /**
  * Gidx upload document request.
+ *
+ * @property-read int $category_type
  */
 class UploadDocumentRequest extends Request
 {
