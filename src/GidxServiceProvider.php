@@ -2,6 +2,7 @@
 
 namespace GidxSDK;
 
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -16,6 +17,7 @@ class GidxServiceProvider extends ServiceProvider
         ], 'config');
 
         $this->registerMigrations();
+        $this->registerRoutes();
     }
 
     /**
@@ -28,5 +30,19 @@ class GidxServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         }
+    }
+
+    /**
+     * Register route to handle webhook.
+     */
+    private function registerRoutes()
+    {
+        Route::group([
+            'prefix' => 'gidx',
+            'namespace' => 'GidxSDK\Http\Controllers',
+            'as' => 'gidx.',
+        ], function () {
+            $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
+        });
     }
 }
