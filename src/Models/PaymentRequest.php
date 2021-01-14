@@ -11,6 +11,7 @@ use GidxSDK\Enums\PaymentRequestStatuses;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -31,10 +32,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property Carbon $updated_at
  * @property string $deleted_at
  *
- * @property GidxSession $gidx_session
- * // * @property Transaction $transaction
- * // * @property User $user
- * @property Collection|PaymentStatusTracking[] $payment_status_trackings
+ * @property GidxSession $gidxSession
+ * @property Collection|PaymentStatusTracking[] statusTracking
  */
 class PaymentRequest extends Model
 {
@@ -45,7 +44,6 @@ class PaymentRequest extends Model
     public const USER_ID = 'user_id';
     public const GIDX_SESSION_ID = 'gidx_session_id';
     public const MERCHANT_TRANSACTION_ID = 'merchant_transaction_id';
-//    public const TRANSACTION_ID = 'transaction_id';
     public const REVERSAL_TRANSACTION_ID = 'reversal_transaction_id';
     public const TYPE = 'type';
     public const METHOD_TYPE = 'method_type';
@@ -58,7 +56,6 @@ class PaymentRequest extends Model
     protected $casts = [
         self::USER_ID => 'int',
         self::GIDX_SESSION_ID => 'int',
-//        self::TRANSACTION_ID => 'int',
         self::REVERSAL_TRANSACTION_ID => 'int',
         self::AMOUNT => 'float',
     ];
@@ -70,28 +67,27 @@ class PaymentRequest extends Model
         self::METHOD_TYPE,
         self::MERCHANT_TRANSACTION_ID,
         self::GIDX_SESSION_ID,
-//        self::TRANSACTION_ID,
         self::REVERSAL_TRANSACTION_ID,
         self::AMOUNT,
         self::CURRENCY,
     ];
 
-    public function gidx_session()
+    public function gidxSession()
     {
         return $this->belongsTo(GidxSession::class);
     }
 
-//	public function transaction()
-//	{
-//		return $this->belongsTo(Transaction::class);
-//	}
+//  public function transaction()
+//  {
+//      return $this->belongsTo(Transaction::class);
+//  }
 
-//	public function user()
-//	{
-//		return $this->belongsTo(User::class);
-//	}
+//  public function user()
+//  {
+//      return $this->belongsTo(User::class);
+//  }
 
-    public function payment_status_trackings()
+    public function statusTracking(): HasMany
     {
         return $this->hasMany(PaymentStatusTracking::class);
     }

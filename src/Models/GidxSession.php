@@ -9,6 +9,7 @@ namespace GidxSDK\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Class GidxSession
@@ -25,8 +26,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  *
- * // * @property User $user
- * @property Collection|GidxSessionResponse[] $gidx_session_responses
+ * @property Collection|GidxSessionResponse[] $gidxSessionResponses
  */
 class GidxSession extends Model
 {
@@ -57,12 +57,7 @@ class GidxSession extends Model
         self::REQUEST_RAW,
     ];
 
-//	public function user()
-//	{
-//		return $this->belongsTo(User::class);
-//	}
-
-    public function gidx_session_responses()
+    public function gidxSessionResponses(): HasMany
     {
         return $this->hasMany(GidxSessionResponse::class);
     }

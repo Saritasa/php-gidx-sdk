@@ -8,6 +8,7 @@ namespace GidxSDK\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class GidxSessionResponse
@@ -26,7 +27,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  *
- * @property GidxSession $gidx_session
+ * @property GidxSession $gidxSession
 // * @property User $user
  */
 class GidxSessionResponse extends Model
@@ -43,16 +44,16 @@ class GidxSessionResponse extends Model
     public const SESSION_SCORE = 'session_score';
     public const RESPONSE_RAW = 'response_raw';
 
-	protected $table = self::TABLE;
+    protected $table = self::TABLE;
 
-	protected $casts = [
+    protected $casts = [
         self::USER_ID => 'int',
         self::GIDX_SESSION_ID => 'int',
-		self::STATUS_CODE => 'int',
-		self::SESSION_SCORE => 'float',
-	];
+        self::STATUS_CODE => 'int',
+        self::SESSION_SCORE => 'float',
+    ];
 
-	protected $fillable = [
+    protected $fillable = [
         self::USER_ID,
         self::GIDX_SESSION_ID,
         self::MERCHANT_SESSION_ID,
@@ -63,15 +64,10 @@ class GidxSessionResponse extends Model
         self::STATUS_MESSAGE,
         self::SESSION_SCORE,
         self::RESPONSE_RAW,
-	];
+    ];
 
-	public function gidx_session()
-	{
-		return $this->belongsTo(GidxSession::class);
-	}
-
-//	public function user()
-//	{
-//		return $this->belongsTo(User::class);
-//	}
+    public function gidxSession(): BelongsTo
+    {
+        return $this->belongsTo(GidxSession::class);
+    }
 }

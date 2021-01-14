@@ -8,6 +8,7 @@ namespace GidxSDK\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class PaymentStatusTracking
@@ -36,33 +37,28 @@ class PaymentStatusTracking extends Model
     public const OLD_STATUS = 'old_status';
     public const STATUS = 'status';
 
-	protected $casts = [
-		self::PAYMENT_REQUEST_ID => 'int',
-		self::ACTION_BY => 'int',
-		self::GIDX_SESSION_RESPONSE_ID => 'int'
-	];
+    protected $casts = [
+        self::PAYMENT_REQUEST_ID => 'int',
+        self::ACTION_BY => 'int',
+        self::GIDX_SESSION_RESPONSE_ID => 'int'
+    ];
 
-	protected $fillable = [
-	    self::PAYMENT_REQUEST_ID,
+    protected $fillable = [
+        self::PAYMENT_REQUEST_ID,
         self::ACTION_BY,
         self::ACTION_TYPE,
         self::OLD_STATUS,
         self::STATUS,
         self::GIDX_SESSION_RESPONSE_ID,
-	];
+    ];
 
-//	public function user()
-//	{
-//		return $this->belongsTo(User::class, self::ACTION_BY);
-//	}
+    public function gidxSessionResponse(): BelongsTo
+    {
+        return $this->belongsTo(GidxSessionResponse::class);
+    }
 
-	public function gidx_session_response()
-	{
-		return $this->belongsTo(GidxSessionResponse::class);
-	}
-
-	public function payment_request()
-	{
-		return $this->belongsTo(PaymentRequest::class);
-	}
+    public function paymentRequest(): BelongsTo
+    {
+        return $this->belongsTo(PaymentRequest::class);
+    }
 }
