@@ -28,7 +28,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property Carbon $updated_at
  *
  * @property GidxSession $gidxSession
-// * @property User $user
  */
 class GidxSessionResponse extends Model
 {

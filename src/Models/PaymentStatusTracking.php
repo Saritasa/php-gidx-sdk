@@ -22,7 +22,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $gidx_session_response_id
  * @property Carbon $created_at
  *
-// * @property User $user
  * @property GidxSessionResponse $gidxSessionResponse
  * @property PaymentRequest $paymentRequest
  */

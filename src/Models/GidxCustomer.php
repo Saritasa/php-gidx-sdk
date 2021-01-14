@@ -2,6 +2,7 @@
 
 namespace GidxSDK\Models;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 /**
@@ -9,7 +10,7 @@ use Illuminate\Support\Str;
  *
  * @property string $merchant_customer_id
  *
- * @mixin \Illuminate\Database\Eloquent\Model
+ * @mixin Model
  */
 trait GidxCustomer
 {
