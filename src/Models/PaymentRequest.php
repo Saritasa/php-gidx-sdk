@@ -24,8 +24,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $type
  * @property string $merchant_transaction_id
  * @property int $gidx_session_id
- * @property int $transaction_id
- * @property int $reversal_transaction_id
  * @property string $method_type
  * @property float $amount
  * @property string $currency
@@ -45,7 +43,6 @@ class PaymentRequest extends Model
     public const USER_ID = 'user_id';
     public const GIDX_SESSION_ID = 'gidx_session_id';
     public const MERCHANT_TRANSACTION_ID = 'merchant_transaction_id';
-    public const REVERSAL_TRANSACTION_ID = 'reversal_transaction_id';
     public const TYPE = 'type';
     public const METHOD_TYPE = 'method_type';
     public const STATUS = 'status';
@@ -57,7 +54,6 @@ class PaymentRequest extends Model
     protected $casts = [
         self::USER_ID => 'int',
         self::GIDX_SESSION_ID => 'int',
-        self::REVERSAL_TRANSACTION_ID => 'int',
         self::AMOUNT => 'float',
     ];
 
@@ -68,7 +64,6 @@ class PaymentRequest extends Model
         self::METHOD_TYPE,
         self::MERCHANT_TRANSACTION_ID,
         self::GIDX_SESSION_ID,
-        self::REVERSAL_TRANSACTION_ID,
         self::AMOUNT,
         self::CURRENCY,
     ];

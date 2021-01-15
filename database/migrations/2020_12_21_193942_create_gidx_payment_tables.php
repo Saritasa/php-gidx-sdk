@@ -14,78 +14,76 @@ class CreateGidxPaymentTables extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('merchant_customer_id', 36)->nullable()->unique()->comment('Customer id to interact with GIDX service')->after('role_id');
+        Schema::table('users', function (Blueprint $users) {
+            $users->string('merchant_customer_id', 36)->nullable()->unique()
+                ->comment('Customer id to interact with GIDX service')->after('role_id');
         });
 
-        Schema::create('gidx_sessions', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedInteger('user_id');
-            $table->string('merchant_session_id', 36)->unique()->comment('Session id to interact with GIDX service');
-            $table->string('merchant_customer_id', 36)->comment('Customer id to interact with GIDX service')->index();
-            $table->string('merchant_transaction_id', 36)->nullable()->comment('Transaction id to interact with GIDX service')->index();
-            $table->string('service_type')->comment('Name of GIDX service');
-            $table->string('ip_address')->nullable();
-            $table->text('device_location')->nullable();
-            $table->text('request_raw')->nullable()->comment('Store the QueryString or JSON of the request that is being made to a GIDX Service');
-            $table->timestamps();
+        Schema::create('gidx_sessions', function (Blueprint $sessions) {
+            $sessions->bigIncrements('id');
+            $sessions->unsignedInteger('user_id');
+            $sessions->string('merchant_session_id', 36)->unique()->comment('Session id to interact with GIDX service');
+            $sessions->string('merchant_customer_id', 36)->comment('Customer id to interact with GIDX service')->index();
+            $sessions->string('merchant_transaction_id', 36)->nullable()->comment('Transaction id to interact with GIDX service')->index();
+            $sessions->string('service_type')->comment('Name of GIDX service');
+            $sessions->string('ip_address')->nullable();
+            $sessions->text('device_location')->nullable();
+            $sessions->text('request_raw')->nullable()->comment('Store the QueryString or JSON of the request that is being made to a GIDX Service');
+            $sessions->timestamps();
 
-            $table->foreign(['user_id'])->references('id')->on('users');
+            $sessions->foreign(['user_id'])->references('id')->on('users');
         });
 
-        Schema::create('gidx_session_responses', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedInteger('user_id');
-            $table->unsignedBigInteger('gidx_session_id')->nullable();
-            $table->string('merchant_session_id', 36)->comment('Session id to interact with GIDX service')->index();
-            $table->string('merchant_customer_id', 36)->nullable()->comment('Customer id to interact with GIDX service')->index();
-            $table->string('merchant_transaction_id', 36)->nullable()->comment('Transaction id to interact with GIDX service')->index();
-            $table->string('service_type')->comment('Name of GIDX service');
-            $table->smallInteger('status_code')->nullable();
-            $table->string('status_message', 255)->nullable();
-            $table->decimal('session_score', 10,2)->nullable();
-            $table->text('response_raw')->nullable()->comment('Store the JSON response that is returned by the GIDX Service.');
-            $table->timestamps();
+        Schema::create('gidx_session_responses', function (Blueprint $responses) {
+            $responses->bigIncrements('id');
+            $responses->unsignedInteger('user_id');
+            $responses->unsignedBigInteger('gidx_session_id')->nullable();
+            $responses->string('merchant_session_id', 36)->comment('Session id to interact with GIDX service')->index();
+            $responses->string('merchant_customer_id', 36)->nullable()->comment('Customer id to interact with GIDX service')->index();
+            $responses->string('merchant_transaction_id', 36)->nullable()->comment('Transaction id to interact with GIDX service')->index();
+            $responses->string('service_type')->comment('Name of GIDX service');
+            $responses->smallInteger('status_code')->nullable();
+            $responses->string('status_message', 255)->nullable();
+            $responses->decimal('session_score', 10,2)->nullable();
+            $responses->text('response_raw')->nullable()->comment('Store the JSON response that is returned by the GIDX Service.');
+            $responses->timestamps();
 
-            $table->foreign(['user_id'])->references('id')->on('users');
-            $table->foreign(['gidx_session_id'])->references('id')->on('gidx_sessions');
+            $responses->foreign(['user_id'])->references('id')->on('users');
+            $responses->foreign(['gidx_session_id'])->references('id')->on('gidx_sessions');
         });
 
-        Schema::create('payment_requests', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedInteger('user_id');
-            $table->enum('status', $this->paymentRequestStatuses())->default('new')->index();
-            $table->enum('type', ['deposit', 'withdraw', 'refund'])->comment('deposit: Deposit from customer, withdraw: Payout winning prizes to customer, refund: Refund deposited coins to customer')->index();
-            $table->string('merchant_transaction_id', 36)->nullable()->unique()->comment('Transaction id to interact with GIDX service');
-            $table->unsignedBigInteger('gidx_session_id')->nullable();
-//            $table->unsignedInteger('transaction_id')->nullable()->comment('Id of internal transaction');
-            $table->unsignedInteger('reversal_transaction_id')->nullable()->comment('Id of internal reversal transaction');
-            $table->string('method_type', 40)->nullable()->comment('Type of payment method from GIDX service')->index();
-            $table->decimal('amount', 10, 2)->comment('Amount of the transaction that is processed by the bank/processing service');
-            $table->string('currency', 3)->default('USD')->comment('USD or other ISO 4217 Currency Codes');
-            $table->timestamp('created_at')->nullable()->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->nullable()->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->softDeletes();
+        Schema::create('payment_requests', function (Blueprint $paymentRequests) {
+            $paymentRequests->bigIncrements('id');
+            $paymentRequests->unsignedInteger('user_id');
+            $paymentRequests->enum('status', $this->paymentRequestStatuses())->default('new')->index();
+            $paymentRequests->enum('type', ['deposit', 'withdraw', 'refund'])->comment('deposit: Deposit from customer, withdraw: Payout winning prizes to customer, refund: Refund deposited coins to customer')->index();
+            $paymentRequests->string('merchant_transaction_id', 36)->nullable()->unique()->comment('Transaction id to interact with GIDX service');
+            $paymentRequests->unsignedBigInteger('gidx_session_id')->nullable();
+            $paymentRequests->string('method_type', 40)->nullable()->comment('Type of payment method from GIDX service')->index();
+            $paymentRequests->decimal('amount', 10, 2)->comment('Amount of the transaction that is processed by the bank/processing service');
+            $paymentRequests->string('currency', 3)->default('USD')->comment('USD or other ISO 4217 Currency Codes');
+            $paymentRequests->timestamp('created_at')->nullable()->default(DB::raw('CURRENT_TIMESTAMP'));
+            $paymentRequests->timestamp('updated_at')->nullable()->default(DB::raw('CURRENT_TIMESTAMP'));
+            $paymentRequests->softDeletes();
 
-            $table->foreign(['user_id'])->references('id')->on('users');
-//            $table->foreign(['transaction_id'])->references('id')->on('transactions');
-            $table->foreign(['gidx_session_id'])->references('id')->on('gidx_sessions');
+            $paymentRequests->foreign(['user_id'])->references('id')->on('users');
+            $paymentRequests->foreign(['gidx_session_id'])->references('id')->on('gidx_sessions');
         });
 
-        Schema::create('payment_status_tracking', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('payment_request_id');
-            $table->unsignedInteger('action_by')->nullable()->comment('User who perform status changed');
-            $table->enum('action_type', ['manual', 'automatic', 'gidx_callback'])->default('automatic')->index();
-            $table->enum('old_status', $this->paymentRequestStatuses())->nullable()->index();
-            $table->enum('status', $this->paymentRequestStatuses())->default('new')->index();
-            $table->unsignedBigInteger('gidx_session_response_id')->nullable();
-            $table->timestamp('created_at')->nullable()->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->nullable()->default(DB::raw('CURRENT_TIMESTAMP'));
+        Schema::create('payment_status_tracking', function (Blueprint $statusTracking) {
+            $statusTracking->bigIncrements('id');
+            $statusTracking->unsignedBigInteger('payment_request_id');
+            $statusTracking->unsignedInteger('action_by')->nullable()->comment('User who perform status changed');
+            $statusTracking->enum('action_type', ['manual', 'automatic', 'gidx_callback'])->default('automatic')->index();
+            $statusTracking->enum('old_status', $this->paymentRequestStatuses())->nullable()->index();
+            $statusTracking->enum('status', $this->paymentRequestStatuses())->default('new')->index();
+            $statusTracking->unsignedBigInteger('gidx_session_response_id')->nullable();
+            $statusTracking->timestamp('created_at')->nullable()->default(DB::raw('CURRENT_TIMESTAMP'));
+            $statusTracking->timestamp('updated_at')->nullable()->default(DB::raw('CURRENT_TIMESTAMP'));
 
-            $table->foreign(['payment_request_id'])->references('id')->on('payment_requests');
-            $table->foreign(['action_by'])->references('id')->on('users');
-            $table->foreign(['gidx_session_response_id'])->references('id')->on('gidx_session_responses');
+            $statusTracking->foreign(['payment_request_id'])->references('id')->on('payment_requests');
+            $statusTracking->foreign(['action_by'])->references('id')->on('users');
+            $statusTracking->foreign(['gidx_session_response_id'])->references('id')->on('gidx_session_responses');
         });
     }
 
