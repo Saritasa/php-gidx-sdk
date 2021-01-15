@@ -4,7 +4,6 @@ namespace GidxSDK\Http\Requests;
 
 use GidxSDK\Dto\CreateSessionDto;
 use GidxSDK\Dto\DeviceGpsDto;
-use GidxSDK\Enums\GidxSessionTypes;
 
 /**
  * Gidx create session request.
@@ -13,7 +12,7 @@ use GidxSDK\Enums\GidxSessionTypes;
  * @property string $type
  * @property float $amount
  */
-class CreateSessionRequest extends Request
+abstract class GidxSessionRequest extends Request
 {
     /**
      * Get the validation rules that apply to the request.
@@ -25,10 +24,6 @@ class CreateSessionRequest extends Request
         return [
             CreateSessionDto::DEVICE_GPS . '.' . DeviceGpsDto::LATITUDE => 'nullable|numeric',
             CreateSessionDto::DEVICE_GPS . '.' . DeviceGpsDto::LONGITUDE => 'nullable|numeric',
-            CreateSessionDto::TYPE => 'required|string|in:' . implode(',', GidxSessionTypes::getConstants()),
-            CreateSessionDto::AMOUNT => 'required_if:' . CreateSessionDto::TYPE . ','
-                . GidxSessionTypes::PAY . ',' . GidxSessionTypes::PAYOUT
-                . '|numeric|min:1',
         ];
     }
 
@@ -42,7 +37,6 @@ class CreateSessionRequest extends Request
         return [
             CreateSessionDto::DEVICE_GPS . '.' . DeviceGpsDto::LATITUDE => 'Device GPS latitude',
             CreateSessionDto::DEVICE_GPS . '.' . DeviceGpsDto::LONGITUDE => 'Device GPS longitude',
-            CreateSessionDto::TYPE => 'Session Type',
             CreateSessionDto::AMOUNT => 'Amount',
         ];
     }
