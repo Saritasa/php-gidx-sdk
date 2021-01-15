@@ -6,6 +6,7 @@ use GidxSDK\Enums\GidxParams;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use InvalidArgumentException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
@@ -106,6 +107,10 @@ class GidxClient
      */
     public function createPayoutSession(float $amount) : ?array
     {
+        if (!$amount || $amount <= 0) {
+            throw new InvalidArgumentException(trans("Amount must be greater than 0"));
+        }
+
         $uri = $this->getBaseUri() . '/' . self::WEB_CASHIER_CREATE_SESSION_URI;
         $params = [
             'PayActionCode' => 'PAYOUT',

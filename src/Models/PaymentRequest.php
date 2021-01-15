@@ -11,6 +11,7 @@ use GidxSDK\Enums\PaymentRequestStatuses;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -72,18 +73,20 @@ class PaymentRequest extends Model
         self::CURRENCY,
     ];
 
-    public function gidxSession()
+    /** Session, to which this request belongs */
+    public function gidxSession(): BelongsTo
     {
         return $this->belongsTo(GidxSession::class);
     }
 
+    /** History of this payment request status changes */
     public function statusTracking(): HasMany
     {
         return $this->hasMany(PaymentStatusTracking::class);
     }
 
     /**
-     * Check is owner of payment request.
+     * Check if user is owner of payment request.
      *
      * @param IGidxCustomer $user User object
      *

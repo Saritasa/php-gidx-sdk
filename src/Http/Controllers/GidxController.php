@@ -15,7 +15,6 @@ class GidxController extends Controller
         $payload = $request->all();
 
         Log::debug("Gidx callback from ip: " . $request->ip(), $payload);
-
         event(new GidxWebhookReceived($payload));
 
         return new Response('', Response::HTTP_NO_CONTENT);

@@ -3,11 +3,13 @@
 namespace GidxSDK\Http\Requests;
 
 use GidxSDK\Enums\GidxCategoryTypes;
+use Illuminate\Http\UploadedFile;
 
 /**
  * Gidx upload document request.
  *
  * @property-read int $category_type
+ * @property-read UploadedFile $file
  */
 class UploadDocumentRequest extends Request
 {
