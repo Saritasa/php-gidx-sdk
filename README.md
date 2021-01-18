@@ -6,7 +6,8 @@
 [![PHPv](https://img.shields.io/packagist/php-v/saritasa/gidx-sdk.svg)](http://www.php.net)
 [![Downloads](https://img.shields.io/packagist/dt/saritasa/gidx-sdk.svg)](https://packagist.org/packages/saritasa/gidx-sdk)
 
-TODO: Project description
+PHP Wrapper for API of [GIDX plagform](http://www.tsevo.com/Docs/Integration).
+Intended to use with applications basedo on Laravel 6.x+ framework
 
 ## Usage
 
@@ -14,6 +15,11 @@ Install the ```saritasa/gidx-sdk``` package:
 
 ```bash
 $ composer require saritasa/gidx-sdk
+```
+
+Copy config to application: 
+```bash
+$ artisan vendor:publish --provider='GidxSDK\GidxServiceProvider' --tag=config
 ```
 
 
