@@ -1,6 +1,6 @@
 # GidxSDK
 
-[![Build Status](https://github.com/Saritasa/php-gidx-sdkworkflows/build/badge.svg)](https://github.com/Saritasa/php-gidx-sdk/actions)
+[![Build Status](https://github.com/Saritasa/php-gidx-sdk/workflows/build/badge.svg)](https://github.com/Saritasa/php-gidx-sdk/actions)
 [![CodeCov](https://codecov.io/gh/Saritasa/php-gidx-sdk/branch/master/graph/badge.svg)](https://codecov.io/gh/Saritasa/php-gidx-sdk)
 [![Release](https://img.shields.io/github/release/Saritasa/php-gidx-sdk.svg)](https://github.com/Saritasa/php-gidx-sdk/releases)
 [![PHPv](https://img.shields.io/packagist/php-v/saritasa/gidx-sdk.svg)](http://www.php.net)
